@@ -2,6 +2,13 @@ import random
 import pygame
 from Plane_main import *
 
+pygame.mixer.init()
+pygame.mixer.music.load('/home/zhangjiayi/音乐/CloudMusic/666.mp3')
+pygame.mixer.music.play(1)
+
+
+
+
 #游戏屏幕的大小
 SCREEN_RECT = pygame.Rect(0,0,480,700)
 #敌机的定时器事件常量
@@ -63,13 +70,13 @@ class Enemy(GameSprite):
 		#print('豆豆')
 		#for i in (1,2,3):
 		ebullet = Ebullet()
-		ebullet.rect.top = self.rect.y + 20#*i
+		ebullet.rect.bottom = self.rect.y + 20#*i
 		ebullet.rect.centerx = self.rect.centerx
 		self.bullets.add(ebullet)
 
 	def __del__(self):
-		#print('敌机挂掉了%s'%self.rect)
-		pass
+		print('敌机挂掉了%s'%self.rect)
+		#pass
 
 class Hero(GameSprite):
 	def __init__(self):
@@ -124,8 +131,8 @@ class Bullet(GameSprite):
 	def __init__(self):
 		super().__init__('/home/zhangjiayi/桌面/飞机大战/image/666/images/bullet2.png',-3)
 	def __del__(self):
-			#print('子弹删除')
-			pass
+			print('子弹删除')
+			#pass
 	def update(self):
 		self.rect.y += self.speed
 		if self.rect.bottom < 0 :
@@ -148,6 +155,7 @@ class Ebullet(GameSprite):
 	def __del__(self):
 		print('子弹没了')
 	def update(self):
-		self.rect.y += self.speed
-		if self.rect.top > 700:
+		super().update()
+		#self.rect.y += self.speed
+		if self.rect.y > 700:
 			self.kill()
