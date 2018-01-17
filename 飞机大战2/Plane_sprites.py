@@ -49,8 +49,8 @@ class Enemy(GameSprite):
 	def __init__(self):
 		#1、调用父类方法，创建敌机精灵，指定图像
 		super().__init__('/home/zhangjiayi/桌面/飞机大战/image/666/images/enemy1.png')
-
-		self.bullets = pygame.sprite.Group()
+		
+		self.bullets3 = pygame.sprite.Group()
 		#2、随机初始速度
 		self.speed = random.randint(1,3)
 		#3、随机初始位置:
@@ -72,11 +72,11 @@ class Enemy(GameSprite):
 		ebullet = Ebullet()
 		ebullet.rect.bottom = self.rect.y + 20#*i
 		ebullet.rect.centerx = self.rect.centerx
-		self.bullets.add(ebullet)
+		self.bullets3.add(ebullet)
 
 	def __del__(self):
-		print('敌机挂掉了%s'%self.rect)
-		#pass
+		#print('敌机挂掉了%s'%self.rect)
+		pass
 
 class Hero(GameSprite):
 	def __init__(self):
@@ -108,7 +108,7 @@ class Hero2(GameSprite):
 		self.rect.centerx = SCREEN_RECT.centerx
 		self.rect.bottom = SCREEN_RECT.bottom - 120
 		
-		self.bullets = pygame.sprite.Group()
+		self.bullets2 = pygame.sprite.Group()
 
 	def update(self):
 		self.rect.x += self.speed
@@ -124,7 +124,7 @@ class Hero2(GameSprite):
 		bullet2 = Bullet2()
 		bullet2.rect.bottom = self.rect.y - 20 
 		bullet2.rect.centerx = self.rect.centerx
-		self.bullets.add(bullet2)
+		self.bullets2.add(bullet2)
 
 class Bullet(GameSprite):
 	
@@ -151,9 +151,10 @@ class Bullet2(GameSprite):
 class Ebullet(GameSprite):
 
 	def __init__(self):
-		super().__init__('/home/zhangjiayi/桌面/飞机大战/image/666/images/bomb_supply.png',5)
+		super().__init__('/home/zhangjiayi/桌面/飞机大战/image/666/images/bomb_supply.png',15)
 	def __del__(self):
-		print('子弹没了')
+		#print('子弹没了')
+		pass
 	def update(self):
 		super().update()
 		#self.rect.y += self.speed

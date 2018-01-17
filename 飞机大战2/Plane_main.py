@@ -1,7 +1,7 @@
 import pygame
 from Plane_sprites import * 
 
-
+list0 = [] 
 class PlaneGame(object):
 
 	def __init__(self):
@@ -55,14 +55,15 @@ class PlaneGame(object):
 		#3、英雄精灵组
 		self.hero = Hero()
 		self.hero2 = Hero2()
-		self.hero_group = pygame.sprite.Group(self.hero,self.hero2)
+		self.hero_group = pygame.sprite.Group()
 
 		#print(self.enemy.speed)
 		if self.enemy.speed == 2 :
 			self.enemy.fire()
-			print('hahahahaha')
+			#print('hahahahaha')
 	def __event_handler(self):
 		#事件监听
+		
 		key_pressed = pygame.key.get_pressed()
 		for event in pygame.event.get():
 			print(event)
@@ -75,11 +76,14 @@ class PlaneGame(object):
 			#elif event.type == HERO_FIRE_EVENT:
 				#self.hero.fire()
 
-			if self.enemy.speed == 2 :
-				self.enemy.fire()
-				print('hahahahaha')
+				if self.enemy.speed == 2 :
+					self.enemy.fire()
+					#print('hahahahaha')
 
-
+			if key_pressed[13]:
+				#self.hero = Hero()
+				#self.hero2 = Hero2()
+				self.hero_group = pygame.sprite.Group(self.hero,self.hero2)
 			#print(key_pressed)
 			if key_pressed[106]:
 				self.hero2.fire2()
@@ -103,24 +107,54 @@ class PlaneGame(object):
 			else:
 				self.hero.speed = 0
 				self.hero2.speed = 0
+		#if self.enemy.bullet3 != [] : 
+			#print(self.enemy.ebullet.rect)
 	def __check_collide(self):
 		
 		#子弹摧毁飞机
 		pygame.sprite.groupcollide(self.hero.bullets,self.enemy_group,True,True) 
-		pygame.sprite.groupcollide(self.hero2.bullets,self.enemy_group,True,True) 
+		pygame.sprite.groupcollide(self.hero2.bullets2,self.enemy_group,True,True)
+		pygame.sprite.groupcollide(self.hero.bullets,self.enemy.bullets3,True,True) 
+		pygame.sprite.groupcollide(self.hero2.bullets2,self.enemy.bullets3,True,True) 
 
 		#飞机摧毁英雄
-		enemies = pygame.sprite.groupcollide(self.hero_group,self.enemy_group,True,True)
+		enemies = pygame.sprite.spritecollide(self.hero,self.enemy_group,True)
+		enemies2 = pygame.sprite.spritecollide(self.hero2,self.enemy_group,True)
+		enemies3 = pygame.sprite.spritecollide(self.hero,self.enemy.bullets3,True)
+		enemies4 = pygame.sprite.spritecollide(self.hero2,self.enemy.bullets3,True)
+		#if enemies != None :
+			#list0.append(enemies[-1])
+		#if enemies != {}:
+			#print(enemies)
+		#if enemies != []:
+			#list0.extend[enemies]
+		#if enemies2 != [] :
+			#list0.extend[enemies2]
+			
 
 		#判断列表是否有内容
-		if len(enemies) > 0 : 
+		if len(enemies) > 0 :
 			self.hero.kill()
+			#enemies = []
 
 			PlaneGame.__game_over()
+		if len(enemies2) > 0 :
+			self.hero2.kill()
+			PlaneGame.__game_over()
+		if len(enemies3) > 0 :
+			self.hero.kill()
+			PlaneGame.__game_over()
+		if len(enemies4) > 0 :
+			self.hero2.kill()
+			PlaneGame.__game_over()
+		#if len(enemies)>0 and len(enemies2) > 0 :
+			#PlaneGame.__game_over()
+		#if len(list0) == 2 :
+			#PlsneGame.__game_over()
 
 	def __update_sprites(self):
 		#更新精灵组
-		for group in [self.back_group,self.enemy_group,self.hero_group,self.hero.bullets,self.hero2.bullets,self.enemy.bullets]:
+		for group in [self.back_group,self.enemy_group,self.hero_group,self.hero.bullets,self.hero2.bullets2,self.enemy.bullets3]:
 			#更新位置
 			group.update()
 			#绘制到屏幕上
